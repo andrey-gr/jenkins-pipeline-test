@@ -24,8 +24,8 @@ pipeline {
           withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_USERNAME')]) {
               echo "$env.GITHUB_TOKEN"
               echo "$env.GITHUB_USERNAME"
-              sh "git push --tags"
-              sh "github-release release -u resolvit-lv -r longo --tag '${versionTag}' --name '$versionTag' --description \"\nBuild log:\n${env.BUILD_URL}\" --draft --pre-release"
+              sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/andrey-gr/jenkins-pipeline-test.git --tags"
+              sh "github-release release -u andrey-gr -r jenkins-pipeline-test --tag '${versionTag}' --name '$versionTag' --description \"\nBuild log:\n${env.BUILD_URL}\" --draft --pre-release"
           }
         }
       }
