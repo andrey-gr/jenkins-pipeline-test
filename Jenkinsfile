@@ -21,8 +21,9 @@ pipeline {
           sh 'git config user.email "jenkins@jenkins.fino.tech"'
           sh 'git config user.name "Jenkins Pipeline"'
           sh "git tag -a $versionTag -m 'Version deploy'"
-          withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GITHUB_TOKEN')]) {
+          withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_USERNAME')]) {
               echo "$env.GITHUB_TOKEN"
+              echo "$env.GITHUB_USERNAME"
               sh "git push --tags"
               sh "github-release release -u resolvit-lv -r longo --tag '${versionTag}' --name '$versionTag' --description \"\nBuild log:\n${env.BUILD_URL}\" --draft --pre-release"
           }
